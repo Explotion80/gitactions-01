@@ -19,6 +19,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
+      - name: Go sleep for 10 seconds
+        run: |
+          echo "Going sleep..."
+          sleep 10
+          echo "Now, I am awake!"
+
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
