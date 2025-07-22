@@ -21,7 +21,7 @@ jobs:
 
       - name: Go sleep for 10 seconds
         run: |
-          echo "Going sleep..."
+          echo "Going sleep....."
           sleep 10
           echo "Now, I am awake!"
 
