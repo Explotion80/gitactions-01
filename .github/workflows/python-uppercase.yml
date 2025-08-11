@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - ".github/workflows/python-uppercase/"
-      - "py-upper/**"
+      - "py_app/**"
   workflow_dispatch:
 
 jobs:
