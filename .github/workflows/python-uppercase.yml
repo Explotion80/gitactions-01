@@ -5,7 +5,6 @@ on:
     paths:
       - ".github/workflows/python-uppercase/"
       - "py_app/**"
-  workflow_dispatch:
 
 jobs:
   test:
