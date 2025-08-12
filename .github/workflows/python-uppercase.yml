@@ -1,4 +1,4 @@
-name: Python Uppercase1
+name: Python Uppercase
 
 on:
   push:
