@@ -18,7 +18,7 @@ jobs:
         run: pwd
 
       - name: List files in current directory
-        run: ls -la
+        run: pwd
 
       - name: Configure cache for pip
         uses: actions/cache@v4
