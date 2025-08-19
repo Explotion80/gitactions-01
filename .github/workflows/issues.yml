@@ -1,0 +1,22 @@
+name: Auto-comment-issue
+
+on:
+  issues:
+    types: opened
+
+jobs:
+  add_comment:
+    permissions:
+      issues: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Debug event payload
+        run: echo '${{ toJson(github.event) }}'
+
+      - name: Add the comment
+        run: |
+          gh issue comment $ISSUE --body "Wow, we have a new issue!" --repo $REPO
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE: ${{ github.event.issue.number }}
+          REPO: ${{ github.event.repository.full_name }}
