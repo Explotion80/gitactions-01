@@ -17,10 +17,15 @@ jobs:
         run: |
           COMMENT_ID=$(gh issue comment $ISSUE --body "Wow, we have a new issue!" --repo $REPO)
           echo "COMMENT_ID is $COMMENT_ID"
+          echo "COMMENT_ID=$COMMENT_ID" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{ github.event.issue.number }}
           REPO: ${{ github.event.repository.full_name }}
 
-      - name: Show coment_id
-        run: echo "COMMENT_ID is $COMMENT_ID"
+      - name: Show comment_id
+        run: |
+          echo "COMMENT_ID is $COMMENT_ID"
+          echo "COMMENT_ID is ${{ steps.add_comment.outputs.COMMENT_ID }}"
+        env:
+          COMMENT_ID: ${{ steps.add_comment.outputs.COMMENT_ID }}
