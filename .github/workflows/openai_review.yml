@@ -1,0 +1,42 @@
+name: OpenAI Code Review
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  review_code:
+    runs-on: ubuntu-latest
+    permissions:
+     pull-requests: write
+    steps:
+    - name: Checout repo
+      uses: actions/checkout@v3
+
+    - name: GET PR diff
+      run: |
+        gh pr diff ${{ github.event.pull_request.number }} > diff.txt
+        cat diff.txt
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Send code to OpenAI for review
+      run: |
+        DIFF_CONTENT=$(jq -Rs '.' < diff.txt) # Convert file to a JSON-safe string
+        JSON_PAYLOAD=$(jq -n --arg content "$DIFF_CONTENT" \
+          '{model: "gpt-5-mini-2025-08-07", messages: [{role: "system", content: "Review the following
+        code diff and suggest improvements, detect errors, or bad practices. Return your review in the
+        markdown format."}, {role: "user", content: $content}]}')
+        RESPONSE=$(curl -X POST "https://api.openai.com/v1/chat/completions" \
+          -H "Authorization: Bearer ${{ secrets.OPENAI_API_KEY}}" \
+          -H "Content-Type: application/json" \
+          -d "$JSON_PAYLOAD")
+        # echo "$RESPONSE" > review.txt
+        echo "$RESPONSE" | jq -r '.choices[0].message.content' > review.txt
+
+    - name: Post review as comment
+      run: |
+        gh pr comment ${{ github.event.pull_request.number }} --body "$(cat review.txt)"
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                
