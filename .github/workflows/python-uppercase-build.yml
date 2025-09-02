@@ -40,7 +40,7 @@ jobs:
         run: pip install pyinstaller
 
       - name: Build EXE file
-        working-directory: py-upper
+        working-directory: py_app
         run: pyinstaller --onefile uppercase.py
 
       - name: List files after build
