@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkount@v4
 
       - name: Install python dependencies
-        uses: py-actions/py dependency install@v4
+        uses: py-actions/py-dependency-install@v4
         with:
           path: "py_app/requiremenents.txt"
           update-pip: "true"
