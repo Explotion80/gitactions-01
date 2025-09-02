@@ -1,0 +1,19 @@
+name: Auto label-issue
+on:
+  issue_comment:
+    types: [created[
+
+jobs:
+  label:
+    permissions:
+      issues: write
+  runs-on: ubuntu-latest
+  steps:
+  - name: Change label to "auto-assigned"
+    if: startsWith(github.event.comment.body, '/assign')
+    run: |
+      gh issue edit $ISSUE --add-label "auto-assigned" --repo $REPO
+  env:
+    ISSUE: ${{ github.event.issue.number }}
+    REPO: ${{ github.event.repository.full_name }}
+    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
