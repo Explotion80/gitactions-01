@@ -13,7 +13,19 @@ jobs:
       if: startsWith(github.event.comment.body, '/assign')
       run: |
         gh issue edit $ISSUE --add-label "auto-assigned" --repo $REPO
-    env:
-      ISSUE: ${{ github.event.issue.number }}
-      REPO: ${{ github.event.repository.full_name }}
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        ISSUE: ${{ github.event.issue.number }}
+        REPO: ${{ github.event.repository.full_name }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Run Always
+      if: always()
+      run: echo "ALWAYS"
+      
+    - name: Run after Failure
+      if: failure()
+      run: echo "FAILURE"
+      
+    - name: Run after Success
+      if: success()
+      run: echo "SUCCESS"
