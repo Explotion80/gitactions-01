@@ -4,7 +4,7 @@ on:
   push:
     paths:
       -".github/workflows/python-uppercase-build.yml"
-      - "py-upper/**"
+      - "py_app/**"
   workflow_dispatch:
 
 jobs:
@@ -17,11 +17,11 @@ jobs:
       - name: Install python dependencies
         uses: py-actions/py dependency install@v4
         with:
-          path: "py-upper/requiremenents.txt"
+          path: "py_app/requiremenents.txt"
           update-pip: "true"
 
       - name: Run tests
-        working-directory: py-upper
+        working-directory: py_app
         run: pytest -v
 
   build:
@@ -50,5 +50,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: uppercase-exe
-          path: py-upper/dist/uppercase.exe
+          path: py_app/dist/uppercase.exe
         
