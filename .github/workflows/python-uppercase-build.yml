@@ -1,4 +1,4 @@
-name: Python Uppercase build
+name: Python Uppercase build + matrix
 
 on:
   push:
