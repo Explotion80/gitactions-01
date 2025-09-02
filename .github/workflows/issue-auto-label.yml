@@ -29,3 +29,11 @@ jobs:
     - name: Run after Success
       if: success()
       run: echo "SUCCESS"
+
+  second-job:
+    runs-on: ubuntu-latest
+    needs: label
+    if: always()
+    steps:
+      - name: I am here
+        run: echo "I am here"
