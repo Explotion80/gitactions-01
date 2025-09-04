@@ -1,9 +1,19 @@
-def to_uppercase(text: str) -> str:
+import sys
+
+def to_upper(text: str) -> str:
+    """Convert a string to uppercase."""
     return text.upper()
 
+def to_lower(text: str) -> str:
+    """Convert a string to lowercase."""
+    return text.lower()
+
 if __name__ == "__main__":
-    import sys
-    if len(sys.argv) > 1:
-        print(to_uppercase(sys.argv[1]))
+    if len(sys.argv) < 2:
+        print("USAGE: uppercase.py [-U|-L] <string_to_convert>")
     else:
-        print("USAGE: uppercase.py <string_to_convert>")
+        mode = sys.argv[1] if sys.argv[1] in ("-U", "-L") else "-U"
+        text = sys.argv[2] if mode in ["-U", "-L"] else sys.argv[1]
+        
+        result = to_upper(text) if mode == "-U" else to_lower(text)
+        print(result)
