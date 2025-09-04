@@ -38,6 +38,8 @@ jobs:
       matrix:
         pyversion: ['3.11', '3.12']
     needs: test
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
