@@ -47,3 +47,4 @@ jobs:
             --platform managed \
             --region us-east1 \
             --allow-unauthenticated
+            
