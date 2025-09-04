@@ -38,8 +38,6 @@ jobs:
       matrix:
         pyversion: ['3.11', '3.12']
     needs: test
-    permissions:
-      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -56,6 +54,10 @@ jobs:
         working-directory: py_app
         run: pyinstaller --onefile uppercase.py
 
+      - name: Rename artifact before upload
+        run: mv uppercase.exe uppercase-${{ matrix.pyversion }}.exe
+        working-directory: py_app/dist
+
       - name: List files after build
         run: ls -R
 
@@ -63,12 +65,31 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: "uppercase-exe ${{ matrix.pyversion }}"
-          path: py_app/dist/uppercase.exe
+          path: "py_app/dist/uppercase-${{ matrix.pyversion }}.exe"
       
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: py_app\dist\uppercase.exe
-          body: "Binaries of the uppercase program compiled for different Python versions"
-          tag_name: ${{ github.ref_name }}
-        
+     # - name: Release
+     #   uses: softprops/action-gh-release@v2
+     #   with:
+     #     files: py_app\dist\uppercase.exe
+     #     body: "Binaries of the uppercase program compiled for different Python versions"
+     #     tag_name: ${{ github.ref_name }}
+  release:
+    runs-on: ubuntu- latest
+    needs: build
+    permissions:
+      contents: write
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+       path: artifacts/
+       
+    - name: List files
+      run: ls -lR
+
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: artifacts/**/*
+        body: "Binaries of the uppercase program compiled for different Python versions"
+        tag_name: ${{ github.ref_name }}
