@@ -1,0 +1,1 @@
+[![Python Uppercase build + matrix](https://github.com/Explotion80/gitactions-01/actions/workflows/python-uppercase-build.yml/badge.svg)](https://github.com/Explotion80/gitactions-01/actions/workflows/python-uppercase-build.yml)
